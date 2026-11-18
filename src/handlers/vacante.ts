@@ -1,10 +1,8 @@
+import Vacante from "../models/Vacante.model";
 import { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
-import Vacante from "../models/Vacante.model";
 
 export const createVacante = async (req: Request, res: Response) => {
-
-  
     await body("titulo")
         .notEmpty().withMessage("El título es obligatorio").run(req);
 
@@ -60,9 +58,27 @@ export const createVacante = async (req: Request, res: Response) => {
     try {
         const vacante = await Vacante.create(req.body);
         res.status(201).json({ data: vacante });
-
     } catch (error) {
         console.log(error);
         res.status(400).json({ error: "No se pudo crear la vacante" });
+    }
+}
+
+export const updateVacante = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        
+        const vacante = await Vacante.findByPk(id);
+
+        if (!vacante) {
+            return res.status(404).json({ error: "Vacante no encontrada" });
+        }
+
+        await vacante.update(req.body);
+
+        res.status(200).json({ data: vacante });
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ error: "Hubo un error al actualizar la vacante" });
     }
 }
