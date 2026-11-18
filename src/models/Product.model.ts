@@ -1,0 +1,34 @@
+import {Table,Column,Model,DataType,Default} from 'sequelize-typescript'
+
+@Table({
+    tableName:'products'
+})
+
+class Product extends Model{
+    @Column({
+        type: DataType.CHAR(100)
+    })
+   // @Default('')
+    name:string
+
+    @Column({
+        type: DataType.FLOAT(6,2)
+    })
+    price: number
+
+    @Column({
+        type: DataType.BOOLEAN
+    })
+    availability: boolean
+}
+
+class Pets extends Model{
+  
+
+    
+}
+
+
+// id name price availability
+
+export default Product
